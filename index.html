@@ -14,54 +14,48 @@
         <p class="lead">Actions sur le rectangle</p>
       </div>
     </div>
-      <button type="button" name="button" id="modif">Modification</button>
-      <button type="button" name="button" id="vert">Vert</button>
-      <button type="button" name="button" id="razColor">RaZ couleur</button>
-      <button type="button" name="button" id="hide">Cache</button>
-      <button type="button" name="button" id="show">Apparait</button>
-    <div>
-      <canvas class="mt-4" id="myCanvas" width="150" height="80" style="border:1px solid black;"></canvas>
-    </div>
+    <span id="res"></span>
+    <form span="mb-3" id="formContact">
+      <p>Nom : <input type="text" name="nom" id="nom"></p>
+      <p>Prénom : <input type="text" name="prenom" id="prenom"></p>
+      <p>Date de naissance : <input type="date" name="dateNaiss" id="dateNaiss"></p>
+      <p>Lieu de naissance : <input type="text" name="lieuNaiss" id="lieuNaiss"></p>
+      <p>Emploi : <input type="text" name="emploi" id="emploi"></p>
+      <p>Société : <input type="text" name="societe" id="societe"></p>
+      <button type="button" id="valid" name="button">Test</button>
+      <!-- <input type="submit" id="valid"> -->
+    </form>
   </div>
   <script src="assets\js\jquery-3.3.1.min.js"></script>
   <script>
 
     $(document).ready(function(){
-      // Fonction modifiant la hauteur du canvas
-      $("#modif").click(function() {
-        // On récupère la hauteur du canvas
-        var hauteur = +$("#myCanvas").attr("height");
-        // console.log(hauteur);
-        // Si inférieur à 100
-        if (hauteur < 100) {
-          // console.log("Moins de 100");
-          // On modifie l'attribut hauteur
-          $("#myCanvas").attr("height", hauteur+10);
-          // console.log($("#myCanvas").attr("height"));
-          // Sinon c'est plus grand
+      // Fonction prévenant le rafraichissement de la page pour le submit
+      $("#formContact").submit(function(e) {
+        e.preventDefault();
+      });
+      // Utilisation de regexp pour tester la validité des champs
+      var stringRegex = /^[a-zA-ZéèîïÉÈÎÏ '-][a-zéèêàçîï '-]+([-'\s][a-zA-ZéèîïÉÈÎÏ '-][a-zéèêàçîï '<-></->]+)?$/;
+      $('#valid').click(function(){
+        var test = true;
+        // Sur tout les input saif l'input d''id dateNaiss
+        $('input').not('#dateNaiss').each(function(){
+          // Si l'input testé ne passe pas le test avec le regex
+          if (stringRegex.test($(this).val()) == false) {
+            $(this).css('border-color', 'red');
+            test = false;
+          } else {
+            $(this).css('border-color', '');
+          }
+        });
+        // Si test = true (pas d'erreur sur tout le formulaire)
+        if (test) {
+          $('#res').text($('#nom').val()+ ' '+$('#prenom').val()+', né le '+$('#dateNaiss').val()+' à '+$('#lieuNaiss').val()+', actuellement '+$('#emploi').val()+' à '+$('#societe').val());
         } else {
-          // console.log("Plus de 100");
-          // Et on réinitialise la hauteur du canvas
-          $("#myCanvas").attr("height", "10");
+          alert("Veuillez entrer des valeurs valides !");
         }
-      })
-      // Modif du background color
-      $("#vert").click(function() {
-        $("#myCanvas").css("background-color", "green");
-      })
-      // Réinitialisation du background color
-      $("#razColor").click(function() {
-        $("#myCanvas").css("background-color", "");
-      })
-      // Cache le canvas
-      $("#hide").click(function() {
-        $("#myCanvas").hide();
-      })
-      // Fait apparaitre le canvas
-      $("#show").click(function() {
-        $("#myCanvas").show()
-      })
     });
+});
   </script>
 </body>
 </html>
