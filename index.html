@@ -10,7 +10,7 @@
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <h1 class="display-3">Exercice 4 - JQuery</h1>
-        <h3>Partie 3</h3>
+        <h3>Partie 4</h3>
         <p class="lead">Actions sur le rectangle</p>
       </div>
     </div>
@@ -50,7 +50,10 @@
         });
         // Si test = true (pas d'erreur sur tout le formulaire)
         if (test) {
-          $('#res').text($('#nom').val()+ ' '+$('#prenom').val()+', né le '+$('#dateNaiss').val()+' à '+$('#lieuNaiss').val()+', actuellement '+$('#emploi').val()+' à '+$('#societe').val());
+          // Modif format de la date (de AA/MM/JJ en JJ/MM/AA)
+          var date = $('#dateNaiss').val().split('-').reverse().join('/');
+          // console.log(date);
+          $('#res').text($('#nom').val()+ ' '+$('#prenom').val()+', né le '+date+' à '+$('#lieuNaiss').val()+', actuellement '+$('#emploi').val()+' à '+$('#societe').val());
         } else {
           alert("Veuillez entrer des valeurs valides !");
         }
